@@ -108,6 +108,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter your first name"
+                  placeholderTextColor = '#808080'
                   value={firstName}
                   onChangeText={setFirstName}
                 />
@@ -118,6 +119,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter your last name"
+                  placeholderTextColor = '#808080'
                   value={lastName}
                   onChangeText={setLastName}
                 />
@@ -128,6 +130,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter your username"
+                  placeholderTextColor = '#808080'
                   value={username}
                   onChangeText={setUsername}
                 />
@@ -138,6 +141,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter referral code (if any)"
+                  placeholderTextColor = '#808080'
                   value={referralBy}
                   onChangeText={setReferralBy}
                 />
@@ -148,6 +152,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter your mail ID"
+                  placeholderTextColor = '#808080'
                   value={mail}
                   onChangeText={setMail}
                 />
@@ -158,6 +163,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter your phone number"
+                  placeholderTextColor = '#808080'
                   value={phoneNumber}
                   onChangeText={setPhoneNumber}
                 />
@@ -169,6 +175,7 @@ const RegisterComponent = () => {
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter your address"
                   value={address}
+                  placeholderTextColor = '#808080'
                   onChangeText={setAddress}
                 />
               </View>
@@ -178,6 +185,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter your city"
+                  placeholderTextColor = '#808080'
                   value={city}
                   onChangeText={setCity}
                 />
@@ -188,6 +196,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter your state"
+                  placeholderTextColor = '#808080'
                   value={state}
                   onChangeText={setState}
                 />
@@ -198,6 +207,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter your postcode"
+                  placeholderTextColor = '#808080'
                   value={postcode}
                   onChangeText={setPostcode}
                 />
@@ -208,6 +218,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Enter your password"
+                  placeholderTextColor = '#808080'
                   secureTextEntry={!showPassword}
                   value={password}
                   onChangeText={setPassword}
@@ -228,6 +239,7 @@ const RegisterComponent = () => {
                 <TextInput
                   className="rounded-md w-full bg-gray-200 py-3 pl-5 font-umregular text-black"
                   placeholder="Confirm your password"
+                  placeholderTextColor = '#808080'
                   secureTextEntry={!showConfirmPassword}
                   value={confirmPassword}
                   onChangeText={setConfirmPassword}

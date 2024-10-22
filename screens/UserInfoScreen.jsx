@@ -49,36 +49,42 @@ const UserInfoScreen = () => {
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="Email"
+          placeholderTextColor = '#808080'
           value={email}
           onChangeText={setEmail}
         />
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="First Name"
+          placeholderTextColor = '#808080'
           value={firstName}
           onChangeText={setFirstName}
         />
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="Last Name"
+          placeholderTextColor = '#808080'
           value={lastName}
           onChangeText={setLastName}
         />
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="Username"
+          placeholderTextColor = '#808080'
           value={username}
           onChangeText={setUsername}
         />
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="Referral Code (optional)"
+          placeholderTextColor = '#808080'
           value={referralBy}
           onChangeText={setReferralBy}
         />
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="Password"
+          placeholderTextColor = '#808080'
           value={password}
           onChangeText={setPassword}
           secureTextEntry={true} // Hide password input

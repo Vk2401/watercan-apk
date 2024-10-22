@@ -95,30 +95,35 @@ const AddressScreen = () => {
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="Address"
+          placeholderTextColor = '#808080'
           value={address}
           onChangeText={setAddress}
         />
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="City"
+          placeholderTextColor = '#808080'
           value={city}
           onChangeText={setCity}
         />
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="State"
+          placeholderTextColor = '#808080'
           value={state}
           onChangeText={setState}
         />
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="Postcode"
+          placeholderTextColor = '#808080'
           value={postcode}
           onChangeText={setPostcode}
         />
         <TextInput
           className="rounded-md bg-gray-200 py-3 pl-5 mb-4"
           placeholder="Phone Number"
+          placeholderTextColor = '#808080'
           value={phoneNumber}
           onChangeText={setPhoneNumber}
         />
