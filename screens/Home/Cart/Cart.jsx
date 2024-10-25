@@ -3,7 +3,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Alert,
+  ActivityIndicator,
   Image,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
@@ -11,6 +11,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import axios from 'axios';
+import { Dialog, Portal, Button, Paragraph,Provider } from "react-native-paper";
+
+
+
 
 export default function Cart() {
   const [userData, setUserData] = useState(null);
@@ -19,11 +24,19 @@ export default function Cart() {
   const [isChecked, setIsChecked] = useState(false);
   const [emptyCanPrice, setEmptyCanPrice] = useState(0);
   const navigation = useNavigation();
-
+  const [visible, setVisible] = useState(false);
+  const [orderId, setOrderId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const hideDialog = () => setVisible(false);
   // Function to handle the checkbox change
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
-    setEmptyCanPrice(isChecked ? 0 : 150);
+    if (!isChecked) {
+      setEmptyCanPrice(canCount * 150); // Multiply canCount by 150 when checked
+    } else {
+      setEmptyCanPrice(0); // Reset when unchecked
+    }
+    
   };
 
   // Function to retrieve data from AsyncStorage
@@ -73,13 +86,77 @@ export default function Cart() {
 
   const handleDecrement = () => {
     if (canCount > 1) {
-      setCanCount(prevCount => prevCount - 1);
-      AsyncStorage.setItem('@can_count', JSON.stringify(canCount - 1)); // Update AsyncStorage
+      setCanCount(canCount - 1);
     }
   };
 
+  const placeOrder = async () => {
+    setIsLoading(true);
+    try {
+
+      if(!userData.billing.email){
+        userData.billing.email = userData.email
+      }
+      // Order data should match WooCommerce API structure
+      const orderData = {
+        payment_method: "cod", // Assuming Cash on Delivery
+        payment_method_title: "Cash on Delivery",
+        set_paid: false, // Update based on payment method
+        customer_id: userData.id,
+        billing: userData.billing,
+        shipping: userData.billing, // Assuming shipping is the same as billing
+        line_items: [
+          {
+            product_id: productData.id,
+            quantity: canCount,
+          },
+        ],
+        shipping_lines: [
+          {
+            method_id: "flat_rate",
+            method_title: "Flat Rate",
+            total: "0.00", // Add shipping cost if applicable
+          },
+        ],
+      };
+  
+      console.log(userData); // Debugging purposes
+  
+      // WooCommerce API POST request
+      const response = await axios.post(
+        "https://ezwater.muvastech.com/wp-json/wc/v3/orders",
+        orderData,
+        {
+          auth: {
+            username: "ck_f748834b2a5a1441b3c62ed42661f72388b2dc8f", // Replace with your consumer key
+            password: "cs_2a33a7799afc3c7ae4a42b8ad560c30129845d67", // Replace with your consumer secret
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (response.status === 201) {
+         // Store the order ID and show the dialog
+         setOrderId(response.data.id); 
+         setVisible(true);
+      } else {
+        Alert.alert("Error", "Something went wrong.");
+      }
+    } catch (error) {
+      console.error("Order failed", error.response?.data || error.message);
+      Alert.alert("Error", "Failed to place the order.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+
   return (
+    <Provider>
     <View className="bg-white h-full">
+
       <View className="mx-5 mt-12">
         <Text className="text-black text-2xl font-bold">Cart</Text>
       </View>
@@ -155,13 +232,40 @@ export default function Cart() {
 
           {/* Check Out Button */}
           <View className="flex mt-5">
-            <TouchableOpacity className="py-3 px-3 bg-sky-500 rounded-md shadow-sm shadow-black mx-5">
-              <Text className="text-white font-bold text-center text-md">Check Out</Text>
+            <TouchableOpacity onPress={placeOrder} disabled={isLoading} className="py-3 px-3 bg-sky-500 rounded-md shadow-sm shadow-black mx-5">
+            {isLoading ? (
+                            <ActivityIndicator size="small" color="#ffffff" />
+                          ) : (
+                            <Text className="text-white font-bold text-center text-md">Check Out</Text>
+                          )}
+              
             </TouchableOpacity>
           </View>
         </View>
         <View className="mb-20"></View>
+               {/* Dialog for showing success message */}
+     <Portal>
+        <Dialog className="bg-white" visible={visible} onDismiss={hideDialog}>
+          <Dialog.Title><Text className="text-[#48bb78]">Order Placed Successfully!</Text></Dialog.Title>
+          <Text className="text-center my-4"><Icon name="check-decagram" className="animate-bounce" size={80} color="#48bb78"  /></Text>
+
+          <Dialog.Content>
+            <Text className="text-gray-700">Your order has been placed. You can view the details by clicking below.</Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button className="bg-blue-500 rounded-xl border-0" onPress={() => {
+              hideDialog();
+              navigation.navigate("OrderDetails", { orderId }); // Navigate to order details screen
+            }}>
+              <Text className="text-white">View Order</Text>
+            </Button>
+            <Button onPress={hideDialog}><Text className="text-gray-700">Close</Text></Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+
       </ScrollView>
     </View>
+    </Provider>
   );
 }

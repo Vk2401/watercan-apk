@@ -12,8 +12,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 export default function Cart() {
+
   const [userData, setUserData] = useState(null);
   const [productData, setProductData] = useState(null);
   const [canCount, setCanCount] = useState(1);
@@ -23,7 +25,12 @@ export default function Cart() {
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
-    setEmptyCanPrice(isChecked ? 0 : 150);
+    if (!isChecked) {
+      setEmptyCanPrice(canCount * 150); // Multiply canCount by 150 when checked
+    } else {
+      setEmptyCanPrice(0); // Reset when unchecked
+    }
+    
   };
 
   useEffect(() => {
@@ -67,6 +74,45 @@ export default function Cart() {
   const handleDecrement = () => {
     if (canCount > 1) {
       setCanCount(canCount - 1);
+    }
+  };
+
+  const placeOrder = async () => {
+    try {
+      const orderData = {
+        payment_method: 'cod', // Update as per your payment method
+        payment_method_title: 'Cash on Delivery',
+        set_paid: false,
+        billing: userData.billing,
+        shipping: userData.billing, // Assuming shipping is the same as billing
+        line_items: [
+          {
+            product_id: productData.id,
+            quantity: canCount
+          }
+        ],
+        meta_data: [
+          {
+            key: "empty_can_price",
+            value: emptyCanPrice
+          }
+        ]
+      };
+  
+      const response = await axios.post('https://ezwater.muvastech.com/wp-json/wc/v3/orders', orderData, {
+        headers: {
+          Authorization: 'Basic ' + btoa('consumer_key:consumer_secret'), // Use your WooCommerce keys
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.status === 201) {
+        Alert.alert('Success', 'Order placed successfully!');
+        navigation.navigate('OrderSuccess'); // Redirect to success screen if needed
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'Failed to place the order.');
     }
   };
 
@@ -147,7 +193,7 @@ export default function Cart() {
 
           {/* Check Out Button */}
           <View className="flex mt-5">
-            <TouchableOpacity className="py-3 px-3 bg-sky-500 rounded-md shadow-sm shadow-black mx-5">
+            <TouchableOpacity onPress={placeOrder} className="py-3 px-3 bg-sky-500 rounded-md shadow-sm shadow-black mx-5">
               <Text className="text-white font-bold text-center text-md">Check Out</Text>
             </TouchableOpacity>
           </View>
