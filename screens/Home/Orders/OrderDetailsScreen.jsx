@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, ActivityIndicator } from "react-native";
+import { View, Text, ScrollView, ActivityIndicator,SafeAreaView } from "react-native";
 import { DataTable, Button } from "react-native-paper";
 import axios from "axios";
 
@@ -20,8 +20,11 @@ const OrderDetailsScreen = ({ route, navigation }) => {
         `https://ezwater.muvastech.com/wp-json/wc/v3/orders/${orderId}`,
         {
           auth: {
-            username: "your_consumer_key", // Replace with your consumer key
-            password: "your_consumer_secret", // Replace with your consumer secret
+            username: "ck_f748834b2a5a1441b3c62ed42661f72388b2dc8f", // Replace with your consumer key
+            password: "cs_2a33a7799afc3c7ae4a42b8ad560c30129845d67", // Replace with your consumer secret
+          },
+          headers: {
+            "Content-Type": "application/json",
           },
         }
       );
@@ -39,8 +42,11 @@ const OrderDetailsScreen = ({ route, navigation }) => {
         `https://ezwater.muvastech.com/wp-json/wc/v3/orders`,
         {
           auth: {
-            username: "your_consumer_key", // Replace with your consumer key
-            password: "your_consumer_secret", // Replace with your consumer secret
+            username: "ck_f748834b2a5a1441b3c62ed42661f72388b2dc8f", // Replace with your consumer key
+            password: "cs_2a33a7799afc3c7ae4a42b8ad560c30129845d67", // Replace with your consumer secret
+          },
+          headers: {
+            "Content-Type": "application/json",
           },
         }
       );
@@ -59,30 +65,12 @@ const OrderDetailsScreen = ({ route, navigation }) => {
   }
 
   return (
-    <ScrollView style={{ flex: 1, padding: 16 }}>
-      <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 16 }}>
-        Order Details
-      </Text>
+    <SafeAreaView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1, padding: 16 }} className="mt-6">
 
-      {/* Order Details Table */}
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Product</DataTable.Title>
-          <DataTable.Title numeric>Quantity</DataTable.Title>
-          <DataTable.Title numeric>Price</DataTable.Title>
-        </DataTable.Header>
-
-        {orderDetails.line_items.map((item) => (
-          <DataTable.Row key={item.id}>
-            <DataTable.Cell>{item.name}</DataTable.Cell>
-            <DataTable.Cell numeric>{item.quantity}</DataTable.Cell>
-            <DataTable.Cell numeric>{item.total}</DataTable.Cell>
-          </DataTable.Row>
-        ))}
-      </DataTable>
 
       {/* Order History Section */}
-      <Text style={{ fontSize: 20, fontWeight: "bold", marginVertical: 16 }}>
+      <Text style={{ fontSize: 20, fontWeight: "bold", marginVertical: 16 }} className="text-black">
         Order History
       </Text>
 
@@ -99,22 +87,15 @@ const OrderDetailsScreen = ({ route, navigation }) => {
               <DataTable.Cell>{order.id}</DataTable.Cell>
               <DataTable.Cell numeric>{order.date_created}</DataTable.Cell>
               <DataTable.Cell numeric>{order.total}</DataTable.Cell>
-              <DataTable.Cell>
-                <Button
-                  onPress={() =>
-                    navigation.navigate("Orders", { orderId: order.id })
-                  }
-                >
-                  View Details
-                </Button>
-              </DataTable.Cell>
+             
             </DataTable.Row>
           ))}
         </DataTable>
       ) : (
-        <Text>No past orders found.</Text>
+        <Text className="text-red-500 text-center">No past orders found.</Text>
       )}
     </ScrollView>
+    </SafeAreaView>
   );
 };
 

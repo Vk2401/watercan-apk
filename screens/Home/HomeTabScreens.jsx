@@ -7,6 +7,7 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import HomeStack from './HomeScreens/HomeStack';
 import ProfileStack from './ProfileScreens/ProfileStack';
 import Cart from './Cart/Cart';
+import OrderDetailsScreen from './Orders/OrderDetailsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -85,6 +86,7 @@ export default function App() {
     >
       <Tab.Screen name="HomeStack" component={HomeStack} options={{ headerShown: false }} />
       <Tab.Screen name="Cart" component={Cart} options={{ headerShown: false }} />
+      <Tab.Screen name="OrderDetails" component={OrderDetailsScreen} options={{ headerShown: false }} />
       <Tab.Screen name="ProfileStack" component={ProfileStack} options={{ headerShown: false }} />
     </Tab.Navigator>
   );

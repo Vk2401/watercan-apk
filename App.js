@@ -12,8 +12,7 @@ import Homepage from './screens/Home/HomeTabScreens';
 import ReSplash from './screens/ReSplash';
 import AddressScreen from './screens/AddressScreen';
 import UserInfoScreen from './screens/UserInfoScreen';
-import UserInfoScreen from './screens/UserInfoScreen';
-import Orders from './screens/orders';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -86,11 +85,8 @@ export default function App() {
           component={Homepage} // Corrected component reference
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="orders"
-          component={Orders} // Corrected component reference
-          options={{ headerShown: false }}
-        />
+
+
       </Stack.Navigator>
       <StatusBar
         barStyle="dark-content" // or "dark-content"
